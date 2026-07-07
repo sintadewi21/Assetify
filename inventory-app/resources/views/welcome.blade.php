@@ -457,7 +457,7 @@
                 </span>
                 
                 <h1 class="fw-black text-body mb-4 leading-tight" style="font-weight: 950; letter-spacing: -2px; font-size: calc(1.8rem + 3vw);">
-                    <span class="text-nowrap">Optimize Office Assets</span><br>
+                    <span class="text-nowrap"> Office Assets</span><br>
                     <span class="text-nowrap">With <span class="text-gradient">InLife Assetify</span></span>
                 </h1>
                 
