@@ -21,11 +21,12 @@ jobs:
 
     - name: Filter paths
       id: filter
-      uses: dorny/paths-filter@v3
+      uses: dorny/paths-filter@v4
       with:
         filters: |
           laravel:
             - 'inventory-app/**'
+            - '.github/workflows/deploy.yml'
 
   lint:
     name: Lint Code
