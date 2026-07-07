@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
-use App\Models\Loan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +15,7 @@ class ApiTest extends TestCase
     use RefreshDatabase;
 
     private User $user;
+
     private Category $category;
 
     protected function setUp(): void
@@ -32,7 +32,7 @@ class ApiTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'success',
-            'message' => 'Daftar kategori berhasil diambil'
+            'message' => 'Daftar kategori berhasil diambil',
         ]);
     }
 
@@ -45,7 +45,7 @@ class ApiTest extends TestCase
             'name' => 'Mouse API',
             'stock' => 10,
             'location' => 'Gudang A',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
 
         $response = $this->actingAs($this->user)->get('/api/products?search=Mouse');
@@ -62,10 +62,10 @@ class ApiTest extends TestCase
             'name' => 'Keyboard API',
             'stock' => 10,
             'location' => 'Gudang A',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
 
-        $response = $this->actingAs($this->user)->get('/api/products/' . $product->id);
+        $response = $this->actingAs($this->user)->get('/api/products/'.$product->id);
         $response->assertStatus(200);
         $response->assertJsonFragment(['name' => 'Keyboard API']);
 
@@ -87,12 +87,12 @@ class ApiTest extends TestCase
             'stock' => 5,
             'location' => 'Gudang B',
             'condition' => 'Bagus',
-            'image' => $file
+            'image' => $file,
         ]);
 
         $response->assertStatus(210); // Returns 210 in API controller on success
         $this->assertDatabaseHas('products', ['code' => 'PROD-API-03']);
-        
+
         // Test fails validation
         $response = $this->actingAs($this->user)->postJson('/api/products', []);
         $response->assertStatus(422);
@@ -107,16 +107,16 @@ class ApiTest extends TestCase
             'name' => 'Laptop API',
             'stock' => 10,
             'location' => 'Gudang A',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
 
-        $response = $this->actingAs($this->user)->putJson('/api/products/' . $product->id, [
+        $response = $this->actingAs($this->user)->putJson('/api/products/'.$product->id, [
             'category_id' => $this->category->id,
             'code' => 'PROD-API-04',
             'name' => 'Laptop API Updated',
             'stock' => 8,
             'location' => 'Gudang A',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
 
         $response->assertStatus(200);
@@ -127,7 +127,7 @@ class ApiTest extends TestCase
         $response->assertStatus(404);
 
         // Test validation fails
-        $response = $this->actingAs($this->user)->putJson('/api/products/' . $product->id, []);
+        $response = $this->actingAs($this->user)->putJson('/api/products/'.$product->id, []);
         $response->assertStatus(422);
     }
 
@@ -140,10 +140,10 @@ class ApiTest extends TestCase
             'name' => 'Cable API',
             'stock' => 10,
             'location' => 'Gudang A',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
 
-        $response = $this->actingAs($this->user)->delete('/api/products/' . $product->id);
+        $response = $this->actingAs($this->user)->delete('/api/products/'.$product->id);
         $response->assertStatus(200);
         $this->assertDatabaseMissing('products', ['id' => $product->id]);
 
@@ -159,7 +159,7 @@ class ApiTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'success',
-            'message' => 'Daftar transaksi peminjaman berhasil diambil'
+            'message' => 'Daftar transaksi peminjaman berhasil diambil',
         ]);
     }
 
@@ -172,7 +172,7 @@ class ApiTest extends TestCase
             'name' => 'Chair API',
             'stock' => 10,
             'location' => 'Gudang A',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
 
         $response = $this->actingAs($this->user)->postJson('/api/loans', [
@@ -182,14 +182,14 @@ class ApiTest extends TestCase
             'products' => [
                 [
                     'product_id' => $product->id,
-                    'qty' => 2
-                ]
-            ]
+                    'qty' => 2,
+                ],
+            ],
         ]);
 
         $response->assertStatus(210); // Returns 210 in API Controller on success
         $this->assertDatabaseHas('borrowings', ['borrower_name' => 'John Doe']);
-        
+
         // Test fails validation
         $response = $this->actingAs($this->user)->postJson('/api/loans', []);
         $response->assertStatus(422);
@@ -202,9 +202,9 @@ class ApiTest extends TestCase
             'products' => [
                 [
                     'product_id' => $product->id,
-                    'qty' => 50
-                ]
-            ]
+                    'qty' => 50,
+                ],
+            ],
         ]);
         $response->assertStatus(400);
     }

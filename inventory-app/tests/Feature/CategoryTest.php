@@ -13,6 +13,7 @@ class CategoryTest extends TestCase
     use RefreshDatabase;
 
     private User $admin;
+
     private User $staff;
 
     protected function setUp(): void
@@ -38,7 +39,7 @@ class CategoryTest extends TestCase
         $response->assertStatus(200);
 
         $response = $this->actingAs($this->admin)->post(route('categories.store'), [
-            'name' => 'Furniture'
+            'name' => 'Furniture',
         ]);
         $response->assertRedirect(route('categories.index'));
         $this->assertDatabaseHas('categories', ['name' => 'Furniture']);
@@ -49,7 +50,7 @@ class CategoryTest extends TestCase
     {
         Category::create(['name' => 'Elektronik']);
         $response = $this->actingAs($this->admin)->post(route('categories.store'), [
-            'name' => 'Elektronik'
+            'name' => 'Elektronik',
         ]);
         $response->assertSessionHasErrors(['name']);
     }
@@ -62,7 +63,7 @@ class CategoryTest extends TestCase
         $response->assertStatus(200);
 
         $response = $this->actingAs($this->admin)->put(route('categories.update', $category), [
-            'name' => 'Elektronik Baru'
+            'name' => 'Elektronik Baru',
         ]);
         $response->assertRedirect(route('categories.index'));
         $this->assertDatabaseHas('categories', ['name' => 'Elektronik Baru']);
@@ -87,7 +88,7 @@ class CategoryTest extends TestCase
             'name' => 'Laptop',
             'stock' => 10,
             'location' => 'Gudang A',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
 
         $response = $this->actingAs($this->admin)->delete(route('categories.destroy', $category));

@@ -15,6 +15,7 @@ class DashboardTest extends TestCase
     use RefreshDatabase;
 
     private User $admin;
+
     private User $staff;
 
     protected function setUp(): void
@@ -34,7 +35,7 @@ class DashboardTest extends TestCase
             'name' => 'Stok Menipis',
             'stock' => 2, // low stock (< 5)
             'location' => 'Gudang A',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
 
         // Create overdue loan
@@ -43,11 +44,11 @@ class DashboardTest extends TestCase
             'borrower_name' => 'Andi',
             'borrow_date' => Carbon::yesterday()->subDays(5),
             'due_date' => Carbon::yesterday(),
-            'status' => 'Approved'
+            'status' => 'Approved',
         ]);
         $loan->details()->create([
             'product_id' => $product->id,
-            'qty' => 1
+            'qty' => 1,
         ]);
 
         $response = $this->actingAs($this->admin)->get(route('dashboard'));

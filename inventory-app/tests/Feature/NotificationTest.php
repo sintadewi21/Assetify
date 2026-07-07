@@ -26,14 +26,14 @@ class NotificationTest extends TestCase
             'user_id' => $this->user->id,
             'title' => 'Test Notification',
             'message' => 'Hello World',
-            'is_read' => false
+            'is_read' => false,
         ]);
 
         $response = $this->actingAs($this->user)->post(route('notifications.read'));
         $response->assertStatus(302); // Redirect back
         $this->assertDatabaseHas('notifications', [
             'user_id' => $this->user->id,
-            'is_read' => true
+            'is_read' => true,
         ]);
     }
 }
