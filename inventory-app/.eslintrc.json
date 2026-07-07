@@ -13,6 +13,13 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "ignorePatterns": [
+    "vendor/**",
+    "node_modules/**",
+    "public/**",
+    "bootstrap/**",
+    "storage/**"
+  ],
   "rules": {
     "no-unused-vars": "warn",
     "no-console": "off"
