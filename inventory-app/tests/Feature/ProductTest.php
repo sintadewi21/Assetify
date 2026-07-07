@@ -13,8 +13,11 @@ class ProductTest extends TestCase
     use RefreshDatabase;
 
     private User $admin;
+
     private User $staff;
+
     private User $manager;
+
     private Category $category;
 
     protected function setUp(): void
@@ -46,7 +49,7 @@ class ProductTest extends TestCase
             'name' => 'Test Laptop',
             'stock' => 10,
             'location' => 'Gudang A',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
 
         $response = $this->actingAs($this->admin)->get(route('products.index'));
@@ -78,7 +81,7 @@ class ProductTest extends TestCase
             'name' => 'Printer HP',
             'stock' => 5,
             'location' => 'Gudang B',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ];
 
         $response = $this->actingAs($this->admin)->post(route('products.store'), $productData);
@@ -86,7 +89,7 @@ class ProductTest extends TestCase
         $response->assertRedirect(route('products.index'));
         $this->assertDatabaseHas('products', [
             'code' => 'PROD-002',
-            'name' => 'Printer HP'
+            'name' => 'Printer HP',
         ]);
     }
 
@@ -99,7 +102,7 @@ class ProductTest extends TestCase
             'name' => '',
             'stock' => -1,
             'location' => '',
-            'condition' => 'invalid-condition'
+            'condition' => 'invalid-condition',
         ];
 
         $response = $this->actingAs($this->admin)->post(route('products.store'), $invalidData);
@@ -116,7 +119,7 @@ class ProductTest extends TestCase
             'name' => 'Product 1',
             'stock' => 10,
             'location' => 'Gudang A',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
 
         $duplicateData = [
@@ -125,7 +128,7 @@ class ProductTest extends TestCase
             'name' => 'Product 2',
             'stock' => 5,
             'location' => 'Gudang B',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ];
 
         $response = $this->actingAs($this->admin)->post(route('products.store'), $duplicateData);
@@ -141,7 +144,7 @@ class ProductTest extends TestCase
             'name' => 'Mouse Logitech',
             'stock' => 15,
             'location' => 'Gudang C',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
 
         $updatedData = [
@@ -150,7 +153,7 @@ class ProductTest extends TestCase
             'name' => 'Mouse Logitech Wireless',
             'stock' => 12,
             'location' => 'Gudang C - Rak 2',
-            'condition' => 'Rusak Ringan'
+            'condition' => 'Rusak Ringan',
         ];
 
         $response = $this->actingAs($this->admin)->put(route('products.update', $product), $updatedData);
@@ -160,7 +163,7 @@ class ProductTest extends TestCase
             'id' => $product->id,
             'name' => 'Mouse Logitech Wireless',
             'stock' => 12,
-            'condition' => 'Rusak Ringan'
+            'condition' => 'Rusak Ringan',
         ]);
     }
 
@@ -173,7 +176,7 @@ class ProductTest extends TestCase
             'name' => 'Keyboard Mechanical',
             'stock' => 3,
             'location' => 'Gudang D',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
 
         $response = $this->actingAs($this->admin)->delete(route('products.destroy', $product));

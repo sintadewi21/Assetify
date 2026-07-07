@@ -21,7 +21,7 @@ class Loan extends Model
 
     protected $casts = [
         'borrow_date' => 'date',
-        'due_date'    => 'date',
+        'due_date' => 'date',
         'return_date' => 'date',
     ];
 

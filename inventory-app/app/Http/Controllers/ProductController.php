@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,11 +17,11 @@ class ProductController extends Controller
         // Pencarian (Search by code, name, location, condition)
         if ($request->filled('search')) {
             $search = $request->input('search');
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('code', 'like', '%' . $search . '%')
-                  ->orWhere('location', 'like', '%' . $search . '%')
-                  ->orWhere('condition', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%'.$search.'%')
+                    ->orWhere('code', 'like', '%'.$search.'%')
+                    ->orWhere('location', 'like', '%'.$search.'%')
+                    ->orWhere('condition', 'like', '%'.$search.'%');
             });
         }
 
@@ -51,6 +51,7 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
+
         return view('products.create', compact('categories'));
     }
 
@@ -59,12 +60,12 @@ class ProductController extends Controller
     {
         $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'code'        => 'required|string|max:255|unique:products,code',
-            'name'        => 'required|string|max:255',
-            'stock'       => 'required|integer|min:0',
-            'location'    => 'required|string|max:255',
-            'condition'   => 'required|in:Bagus,Rusak Ringan,Rusak Berat',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'code' => 'required|string|max:255|unique:products,code',
+            'name' => 'required|string|max:255',
+            'stock' => 'required|integer|min:0',
+            'location' => 'required|string|max:255',
+            'condition' => 'required|in:Bagus,Rusak Ringan,Rusak Berat',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $data = $request->all();
@@ -83,6 +84,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::all();
+
         return view('products.edit', compact('product', 'categories'));
     }
 
@@ -91,12 +93,12 @@ class ProductController extends Controller
     {
         $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'code'        => 'required|string|max:255|unique:products,code,' . $product->id,
-            'name'        => 'required|string|max:255',
-            'stock'       => 'required|integer|min:0',
-            'location'    => 'required|string|max:255',
-            'condition'   => 'required|in:Bagus,Rusak Ringan,Rusak Berat',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'code' => 'required|string|max:255|unique:products,code,'.$product->id,
+            'name' => 'required|string|max:255',
+            'stock' => 'required|integer|min:0',
+            'location' => 'required|string|max:255',
+            'condition' => 'required|in:Bagus,Rusak Ringan,Rusak Berat',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $data = $request->all();
@@ -120,7 +122,7 @@ class ProductController extends Controller
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
         }
-        
+
         $product->delete();
 
         return redirect()->route('products.index')->with('success', 'Product successfully removed from the warehouse!');

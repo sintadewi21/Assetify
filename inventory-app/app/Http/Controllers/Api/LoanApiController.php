@@ -20,7 +20,7 @@ class LoanApiController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Daftar transaksi peminjaman berhasil diambil',
-            'data' => $loans
+            'data' => $loans,
         ], 200);
     }
 
@@ -28,19 +28,19 @@ class LoanApiController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id'       => 'required|exists:users,id', // Staff penanggung jawab
+            'user_id' => 'required|exists:users,id', // Staff penanggung jawab
             'borrower_name' => 'required|string|max:255',
-            'borrow_date'   => 'required|date',
-            'products'      => 'required|array|min:1',
+            'borrow_date' => 'required|date',
+            'products' => 'required|array|min:1',
             'products.*.product_id' => 'required|exists:products,id',
-            'products.*.qty'        => 'required|integer|min:1',
+            'products.*.qty' => 'required|integer|min:1',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Validasi gagal',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -50,7 +50,7 @@ class LoanApiController extends Controller
             if ($item['qty'] > $product->stock) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Stok produk "' . $product->name . '" tidak mencukupi. Tersedia: ' . $product->stock
+                    'message' => 'Stok produk "'.$product->name.'" tidak mencukupi. Tersedia: '.$product->stock,
                 ], 400);
             }
         }
@@ -59,10 +59,10 @@ class LoanApiController extends Controller
             $loan = DB::transaction(function () use ($request) {
                 // 1. Simpan Master Peminjaman (ke tabel borrowings)
                 $loan = Loan::create([
-                    'user_id'       => $request->user_id,
+                    'user_id' => $request->user_id,
                     'borrower_name' => $request->borrower_name,
-                    'borrow_date'   => $request->borrow_date,
-                    'status'        => 'Pending',
+                    'borrow_date' => $request->borrow_date,
+                    'status' => 'Pending',
                 ]);
 
                 // 2. Simpan Detail Peminjaman & Kurangi Stok (ke tabel borrowing_details)
@@ -72,8 +72,8 @@ class LoanApiController extends Controller
 
                     LoanDetail::create([
                         'borrowing_id' => $loan->id,
-                        'product_id'   => $item['product_id'],
-                        'qty'          => $item['qty']
+                        'product_id' => $item['product_id'],
+                        'qty' => $item['qty'],
                     ]);
                 }
 
@@ -83,13 +83,13 @@ class LoanApiController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Transaksi peminjaman berhasil dicatat (Pending)',
-                'data' => $loan->load('details.product')
+                'data' => $loan->load('details.product'),
             ], 210);
 
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Terjadi kesalahan sistem: ' . $e->getMessage()
+                'message' => 'Terjadi kesalahan sistem: '.$e->getMessage(),
             ], 500);
         }
     }

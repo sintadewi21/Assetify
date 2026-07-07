@@ -4,23 +4,21 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      * @param  string  ...$roles
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
         // Jika user belum login, lempar ke halaman login
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect('login');
         }
 
@@ -40,6 +38,7 @@ class CheckRole
         // Jika gagal hak akses di halaman dashboard, jangan redirect ke dashboard lagi (mencegah loop)
         if ($request->is('dashboard') || $request->is('*/dashboard')) {
             Auth::logout();
+
             return redirect('/login')->with('error', 'Invalid login session or database not migrated. Please run php artisan migrate:fresh --seed.');
         }
 

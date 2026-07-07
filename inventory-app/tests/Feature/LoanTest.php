@@ -6,18 +6,22 @@ use App\Models\Category;
 use App\Models\Loan;
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Carbon\Carbon;
 
 class LoanTest extends TestCase
 {
     use RefreshDatabase;
 
     private User $admin;
+
     private User $staff;
+
     private User $manager;
+
     private Category $category;
+
     private Product $product;
 
     protected function setUp(): void
@@ -37,7 +41,7 @@ class LoanTest extends TestCase
             'name' => 'MacBook Pro',
             'stock' => 10,
             'location' => 'Lantai 1',
-            'condition' => 'Bagus'
+            'condition' => 'Bagus',
         ]);
     }
 
@@ -65,9 +69,9 @@ class LoanTest extends TestCase
             'products' => [
                 [
                     'product_id' => $this->product->id,
-                    'qty' => 3
-                ]
-            ]
+                    'qty' => 3,
+                ],
+            ],
         ];
 
         $response = $this->actingAs($this->staff)->post(route('loans.store'), $loanData);
@@ -87,7 +91,7 @@ class LoanTest extends TestCase
         // Check notification created for Manager
         $this->assertDatabaseHas('notifications', [
             'user_id' => $this->manager->id,
-            'title' => 'New Loan Request'
+            'title' => 'New Loan Request',
         ]);
     }
 
@@ -100,7 +104,7 @@ class LoanTest extends TestCase
             'borrower_name' => 'Rian Wijaya',
             'borrow_date' => Carbon::today(),
             'due_date' => Carbon::tomorrow(),
-            'status' => 'Pending'
+            'status' => 'Pending',
         ]);
 
         // 2. Perform approval as Manager
@@ -113,7 +117,7 @@ class LoanTest extends TestCase
         // Check notification created for Staff
         $this->assertDatabaseHas('notifications', [
             'user_id' => $this->staff->id,
-            'title' => 'Loan Request Approved'
+            'title' => 'Loan Request Approved',
         ]);
     }
 
@@ -128,18 +132,18 @@ class LoanTest extends TestCase
             'borrower_name' => 'Rian Wijaya',
             'borrow_date' => Carbon::today(),
             'due_date' => Carbon::tomorrow(),
-            'status' => 'Pending'
+            'status' => 'Pending',
         ]);
 
         // Detail mapping
         $loan->details()->create([
             'product_id' => $this->product->id,
-            'qty' => 2
+            'qty' => 2,
         ]);
 
         // 2. Perform rejection as Manager with reason
         $response = $this->actingAs($this->manager)->patch(route('loans.reject', $loan), [
-            'reject_reason' => 'Data tidak lengkap'
+            'reject_reason' => 'Data tidak lengkap',
         ]);
 
         $response->assertRedirect(route('loans.index'));
@@ -154,7 +158,7 @@ class LoanTest extends TestCase
         // Check notification created for Staff
         $this->assertDatabaseHas('notifications', [
             'user_id' => $this->staff->id,
-            'title' => 'Loan Request Rejected'
+            'title' => 'Loan Request Rejected',
         ]);
     }
 
@@ -169,12 +173,12 @@ class LoanTest extends TestCase
             'borrower_name' => 'Citra Lestari',
             'borrow_date' => Carbon::today(),
             'due_date' => Carbon::tomorrow(),
-            'status' => 'Approved'
+            'status' => 'Approved',
         ]);
 
         $loan->details()->create([
             'product_id' => $this->product->id,
-            'qty' => 4
+            'qty' => 4,
         ]);
 
         // 2. Process return

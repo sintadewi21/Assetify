@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CategoryController; 
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\LoanController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoanController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,7 +21,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::middleware(['auth', 'role:Admin,Staff'])->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
-    
+
     // Pencatatan & pengembalian peminjaman barang
     Route::get('/loans/create', [LoanController::class, 'create'])->name('loans.create');
     Route::post('/loans', [LoanController::class, 'store'])->name('loans.store');
@@ -30,7 +31,7 @@ Route::middleware(['auth', 'role:Admin,Staff'])->group(function () {
 // 2. Grup Hak Akses Admin, Staff, & Manager: Melihat Log/Laporan Peminjaman
 Route::middleware(['auth', 'role:Admin,Staff,Manager'])->group(function () {
     Route::get('/loans', [LoanController::class, 'index'])->name('loans.index');
-    
+
     // Bonus Ekspor Laporan
     Route::get('/loans/export/excel', [LoanController::class, 'exportExcel'])->name('loans.export.excel');
     Route::get('/loans/export/pdf', [LoanController::class, 'exportPdf'])->name('loans.export.pdf');
@@ -46,9 +47,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+
     // Notifications Route
-    Route::post('/notifications/read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.read');
+    Route::post('/notifications/read', [NotificationController::class, 'markAllAsRead'])->name('notifications.read');
 });
 
 require __DIR__.'/auth.php';

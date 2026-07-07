@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Illuminate\Http\Request;
 
 class CategoryApiController extends Controller
 {
@@ -16,7 +15,7 @@ class CategoryApiController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Daftar kategori berhasil diambil',
-            'data' => $categories
+            'data' => $categories,
         ], 200);
     }
 }

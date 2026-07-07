@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\Loan;
 use App\Models\LoanDetail;
+use App\Models\Product;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -16,7 +15,7 @@ class DashboardController extends Controller
         $total_products = Product::count();
 
         // 2. Total barang yang sedang dipinjam (Status = Approved)
-        $borrowed_count = LoanDetail::whereHas('loan', function($q) {
+        $borrowed_count = LoanDetail::whereHas('loan', function ($q) {
             $q->where('status', 'Approved');
         })->sum('qty');
 
@@ -54,12 +53,12 @@ class DashboardController extends Controller
         $overdue_loans = [];
         if (in_array(strtolower(auth()->user()->role), ['admin', 'staff'])) {
             $overdue_loans = Loan::with(['user', 'details.product'])
-                ->where(function($q) {
+                ->where(function ($q) {
                     $q->where('status', 'Overdue')
-                      ->orWhere(function($sub) {
-                          $sub->where('status', 'Approved')
-                              ->where('due_date', '<', Carbon::today());
-                      });
+                        ->orWhere(function ($sub) {
+                            $sub->where('status', 'Approved')
+                                ->where('due_date', '<', Carbon::today());
+                        });
                 })->get();
         }
 

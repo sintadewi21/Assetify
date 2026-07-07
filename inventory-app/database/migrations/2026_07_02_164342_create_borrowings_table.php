@@ -10,19 +10,19 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('borrowings', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Staff/Admin penanggung jawab
-        $table->string('borrower_name'); // Nama Peminjam
-        $table->date('borrow_date'); // Tanggal Pinjam
-        $table->date('due_date')->nullable(); // Tanggal Tenggat Peminjaman
-        $table->date('return_date')->nullable(); // Tanggal Kembali
-        $table->enum('status', ['Pending', 'Approved', 'Rejected', 'Returned', 'Overdue'])->default('Pending'); // Status
-        $table->text('reject_reason')->nullable(); // Alasan Penolakan Manager
-        $table->timestamps();
-    });
-}
+    {
+        Schema::create('borrowings', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Staff/Admin penanggung jawab
+            $table->string('borrower_name'); // Nama Peminjam
+            $table->date('borrow_date'); // Tanggal Pinjam
+            $table->date('due_date')->nullable(); // Tanggal Tenggat Peminjaman
+            $table->date('return_date')->nullable(); // Tanggal Kembali
+            $table->enum('status', ['Pending', 'Approved', 'Rejected', 'Returned', 'Overdue'])->default('Pending'); // Status
+            $table->text('reject_reason')->nullable(); // Alasan Penolakan Manager
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

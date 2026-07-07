@@ -17,8 +17,8 @@ class ProductApiController extends Controller
 
         if ($request->has('search')) {
             $search = $request->input('search');
-            $query->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('code', 'like', '%' . $search . '%');
+            $query->where('name', 'like', '%'.$search.'%')
+                ->orWhere('code', 'like', '%'.$search.'%');
         }
 
         $products = $query->latest()->paginate(15);
@@ -26,7 +26,7 @@ class ProductApiController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Daftar produk berhasil diambil',
-            'data' => $products
+            'data' => $products,
         ], 200);
     }
 
@@ -35,17 +35,17 @@ class ProductApiController extends Controller
     {
         $product = Product::with('category')->find($id);
 
-        if (!$product) {
+        if (! $product) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Produk tidak ditemukan'
+                'message' => 'Produk tidak ditemukan',
             ], 404);
         }
 
         return response()->json([
             'status' => 'success',
             'message' => 'Detail produk berhasil diambil',
-            'data' => $product
+            'data' => $product,
         ], 200);
     }
 
@@ -54,19 +54,19 @@ class ProductApiController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'category_id' => 'required|exists:categories,id',
-            'code'        => 'required|string|unique:products,code',
-            'name'        => 'required|string|max:255',
-            'stock'       => 'required|integer|min:0',
-            'location'    => 'required|string|max:255',
-            'condition'   => 'required|in:Bagus,Rusak Ringan,Rusak Berat',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'code' => 'required|string|unique:products,code',
+            'name' => 'required|string|max:255',
+            'stock' => 'required|integer|min:0',
+            'location' => 'required|string|max:255',
+            'condition' => 'required|in:Bagus,Rusak Ringan,Rusak Berat',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Validasi gagal',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -81,7 +81,7 @@ class ProductApiController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Produk berhasil ditambahkan',
-            'data' => $product
+            'data' => $product,
         ], 210);
     }
 
@@ -90,27 +90,27 @@ class ProductApiController extends Controller
     {
         $product = Product::find($id);
 
-        if (!$product) {
+        if (! $product) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Produk tidak ditemukan'
+                'message' => 'Produk tidak ditemukan',
             ], 404);
         }
 
         $validator = Validator::make($request->all(), [
             'category_id' => 'required|exists:categories,id',
-            'code'        => 'required|string|unique:products,code,' . $product->id,
-            'name'        => 'required|string|max:255',
-            'stock'       => 'required|integer|min:0',
-            'location'    => 'required|string|max:255',
-            'condition'   => 'required|in:Bagus,Rusak Ringan,Rusak Berat',
+            'code' => 'required|string|unique:products,code,'.$product->id,
+            'name' => 'required|string|max:255',
+            'stock' => 'required|integer|min:0',
+            'location' => 'required|string|max:255',
+            'condition' => 'required|in:Bagus,Rusak Ringan,Rusak Berat',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Validasi gagal',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -119,7 +119,7 @@ class ProductApiController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Produk berhasil diperbarui',
-            'data' => $product
+            'data' => $product,
         ], 200);
     }
 
@@ -128,10 +128,10 @@ class ProductApiController extends Controller
     {
         $product = Product::find($id);
 
-        if (!$product) {
+        if (! $product) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Produk tidak ditemukan'
+                'message' => 'Produk tidak ditemukan',
             ], 404);
         }
 
@@ -143,7 +143,7 @@ class ProductApiController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Produk berhasil dihapus'
+            'message' => 'Produk berhasil dihapus',
         ], 200);
     }
 }
