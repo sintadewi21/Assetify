@@ -1,4 +1,4 @@
-name: Build & Deploy to Azure App Service
+name: Build & Deploy to Azure VPS
 
 on:
   push:
@@ -135,7 +135,7 @@ jobs:
           node parse-laravel-coverage.js
 
   deploy:
-    name: Deploy to Azure Web App
+    name: Deploy via SSH to Azure VPS
     runs-on: ubuntu-latest
     needs: [detect-changes, lint, test, coverage-summary]
     if: github.ref == 'refs/heads/main' && needs.detect-changes.outputs.laravel == 'true' && needs.test.result == 'success'
@@ -144,59 +144,17 @@ jobs:
     - name: Checkout Repository Code
       uses: actions/checkout@v4
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
+    - name: Deploy via SSH to Azure
+      uses: appleboy/ssh-action@v1.0.3
       with:
-        php-version: '8.2'
-        coverage: none
-
-    - name: Get Composer Cache Directory
-      id: composer-cache
-      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      working-directory: inventory-app
-
-    - name: Cache Composer Dependencies
-      uses: actions/cache@v4
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-prod-${{ hashFiles('inventory-app/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-prod-
-
-    - name: Install Composer Production Dependencies
-      run: composer install --no-dev --optimize-autoloader --no-ansi --no-interaction --no-scripts --no-progress
-      working-directory: inventory-app
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-
-    - name: Cache Node Modules
-      id: npm-cache-deploy
-      uses: actions/cache@v4
-      with:
-        path: inventory-app/node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('inventory-app/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-
-    - name: Install NPM Dependencies & Build Assets
-      run: |
-        if [ "${{ steps.npm-cache-deploy.outputs.cache-hit }}" != "true" ]; then
-          npm ci
-        fi
-        npm run build
-      working-directory: inventory-app
-
-    - name: Create Deployment Package
-      run: |
-        mkdir -p deployment-package
-        cp -r inventory-app/* deployment-package/ 2>/dev/null || true
-
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v3
-      with:
-        app-name: ${{ vars.WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: deployment-package
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd /var/www/assetify/inventory-app
+          sudo git pull origin main
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan view:clear
+          php artisan route:clear
