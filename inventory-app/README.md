@@ -96,19 +96,54 @@ Ikuti langkah-langkah di bawah untuk menjalankan project ini di komputer lokal A
 
 ---
 
+## 🐳 Running with Docker (Nilai Tambahan)
+
+Jika Anda ingin menjalankan aplikasi ini menggunakan **Docker** (sehingga tidak perlu menginstal PHP/MySQL secara manual pada komputer Anda):
+
+1. **Pastikan Docker & Docker Compose sudah terpasang dan berjalan**.
+2. **Nyalakan container**:
+   ```bash
+   docker compose up -d --build
+   ```
+3. **Jalankan migrasi database & seeding** di dalam container:
+   ```bash
+   docker compose exec web php artisan migrate:fresh --seed
+   ```
+4. **Hubungkan storage symlink**:
+   ```bash
+   docker compose exec web php artisan storage:link
+   ```
+5. **Akses aplikasi**:
+   Aplikasi dapat langsung diakses pada port **8080**: [http://localhost:8080](http://localhost:8080)
+
+---
+
+## 🧪 Automated Testing (Nilai Tambahan)
+
+Project ini dilengkapi dengan **40 test cases (Feature & Unit Tests)** yang menguji keandalan sistem autentikasi, otorisasi role, CRUD barang, dan siklus transaksi peminjaman barang (termasuk pengurangan & pengembalian stok).
+
+Untuk menjalankan seluruh pengujian otomatis:
+```bash
+php artisan test
+```
+
+*Seluruh pengujian dikonfigurasi untuk berjalan secara otomatis di backend GitHub Actions (CI/CD) setiap kali ada kode baru yang di-push.*
+
+---
+
 ## 🔑 Akun Login Testing (Hasil Seeder)
 
-Untuk kemudahan penilaian, database seeder telah menyiapkan 3 akun representatif untuk masing-masing role dengan kata sandi yang sama:
+Untuk kemudahan penilaian, database seeder telah menyiapkan akun representatif untuk masing-masing role:
 
 - **Admin**:
-  - Email: `admin@telkomsel.com`
-  - Password: `password123`
+  - Email: `admin1@gmail.com` (atau `admin2@gmail.com`, `admin3@gmail.com`)
+  - Password: `admin123`
 - **Staff Inventaris**:
-  - Email: `staff@telkomsel.com`
-  - Password: `password123`
+  - Email: `staff@gmail.com`
+  - Password: `staff123`
 - **Manager**:
-  - Email: `manager@telkomsel.com`
-  - Password: `password123`
+  - Email: `manager@gmail.com`
+  - Password: `manager123`
 
 *Catatan: Anda juga dapat mendaftarkan akun baru melalui menu Register dan memilih langsung role yang diinginkan.*
 
