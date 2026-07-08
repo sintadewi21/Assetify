@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Loan;
 use App\Models\LoanDetail;
 use App\Models\Notification;
@@ -49,7 +50,7 @@ class DashboardController extends Controller
         }
 
         // 8. Kategori Aset Terbanyak (Donut / Pie Chart)
-        $categories_chart = \App\Models\Category::withSum('products', 'stock')
+        $categories_chart = Category::withSum('products', 'stock')
             ->get()
             ->map(function ($cat) {
                 return [
@@ -101,7 +102,7 @@ class DashboardController extends Controller
             $activities->push([
                 'date' => $prod->created_at,
                 'title' => 'New Product Added',
-                'message' => 'Product "' . $prod->name . '" (Stock: ' . $prod->stock . ') was added to ' . $prod->location . '.',
+                'message' => 'Product "'.$prod->name.'" (Stock: '.$prod->stock.') was added to '.$prod->location.'.',
                 'icon' => 'bi-box-seam',
                 'badge_class' => 'bg-info-subtle text-info border-info-subtle',
             ]);
@@ -111,32 +112,32 @@ class DashboardController extends Controller
             $status = strtolower($loan->status);
             $icon = 'bi-file-earmark-text';
             $badge_class = 'bg-secondary-subtle text-secondary border-secondary-subtle';
-            
+
             if ($status === 'pending') {
                 $icon = 'bi-clock';
                 $badge_class = 'bg-warning-subtle text-warning border-warning-subtle';
                 $title = 'Loan Request';
-                $msg = 'New request by "' . $loan->borrower_name . '" (Awaiting approval).';
+                $msg = 'New request by "'.$loan->borrower_name.'" (Awaiting approval).';
             } elseif ($status === 'approved') {
                 $icon = 'bi-check-circle';
                 $badge_class = 'bg-success-subtle text-success border-success-subtle';
                 $title = 'Loan Approved';
-                $msg = 'Loan request for "' . $loan->borrower_name . '" was approved.';
+                $msg = 'Loan request for "'.$loan->borrower_name.'" was approved.';
             } elseif ($status === 'returned') {
                 $icon = 'bi-arrow-left-right';
                 $badge_class = 'bg-primary-subtle text-primary border-primary-subtle';
                 $title = 'Items Returned';
-                $msg = '"' . $loan->borrower_name . '" returned their borrowed items.';
+                $msg = '"'.$loan->borrower_name.'" returned their borrowed items.';
             } elseif ($status === 'rejected') {
                 $icon = 'bi-x-circle';
                 $badge_class = 'bg-danger-subtle text-danger border-danger-subtle';
                 $title = 'Loan Rejected';
-                $msg = 'Loan request for "' . $loan->borrower_name . '" was rejected.';
+                $msg = 'Loan request for "'.$loan->borrower_name.'" was rejected.';
             } elseif ($status === 'overdue') {
                 $icon = 'bi-exclamation-triangle';
                 $badge_class = 'bg-danger-subtle text-danger border-danger-subtle';
                 $title = 'Loan Overdue';
-                $msg = 'Loan for "' . $loan->borrower_name . '" is overdue.';
+                $msg = 'Loan for "'.$loan->borrower_name.'" is overdue.';
             }
 
             $activities->push([
@@ -168,14 +169,14 @@ class DashboardController extends Controller
 
     public function remind(Loan $loan)
     {
-        if (!in_array($loan->status, ['Approved', 'Overdue'])) {
+        if (! in_array($loan->status, ['Approved', 'Overdue'])) {
             return redirect()->back()->with('error', 'This loan is not active or overdue!');
         }
 
         Notification::create([
             'user_id' => $loan->user_id,
             'title' => 'Overdue Return Warning',
-            'message' => 'Please contact borrower "' . $loan->borrower_name . '" immediately. The loan for items (due on ' . ($loan->due_date ? $loan->due_date->format('d M Y') : '-') . ') is overdue.',
+            'message' => 'Please contact borrower "'.$loan->borrower_name.'" immediately. The loan for items (due on '.($loan->due_date ? $loan->due_date->format('d M Y') : '-').') is overdue.',
         ]);
 
         return redirect()->back()->with('success', 'Reminder notification sent successfully to the staff in charge!');
