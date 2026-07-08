@@ -12,14 +12,9 @@ Conventional library asset management is typically reactive—strictly limiting 
 Operational and management teams struggle to map out the cumulative depreciation of asset values and precisely determine when optimal preventive maintenance cycles should be executed based on historical data dynamics.
 
 ### Proposed Solution
-**Assetify** addresses these gaps as an intelligent library management ecosystem built on a modern full-stack monolithic framework. 
+**Assetify** addresses these gaps as an intelligent and robust inventory management ecosystem built on a modern full-stack monolithic framework. 
 
-The platform breaks the limitations of traditional inventory systems by integrating a cutting-edge modeling module leveraging a **System Dynamics (Single Integrated Scenario)** approach. Assetify not only records real-time logistical transactions but also mathematically simulates stock turnover, wear-and-tear rates of consumable items, and predicts future procurement needs within a single, comprehensive analytical dashboard.
-
-### Key Objectives
-* **Real-time Data Transparency:** Provides transparent logging of circulation, borrowing activities, asset image tracking, and condition statuses.
-* **System Dynamics Integration:** Features a robust, single integrated mathematical simulation scenario to project long-term asset stock behaviors.
-* **Infrastructure Hardening:** Built on top of a resilient containerized foundation to ensure operational reliability, high portability, and secure database staging.
+The platform breaks the limitations of traditional inventory systems by replacing manual logging with an automated, transactional circulation workflow. Assetify not only records real-time logistical movements and multi-item borrowing requests but also enforces strict role-based data security, provides live operational analytics (such as automated low-stock alerts and overdue return tracking), and secures media attachments within a resilient, containerized cloud infrastructure.
 
 ---
 
@@ -34,6 +29,48 @@ For evaluation and testing purposes, the database seeder registers pre-configure
 | **Manager** | `manager@gmail.com` | `manager123` |
 
 *Note: You can also use the registration form on the welcome page, where you can directly assign roles to new testing users.*
+
+---
+## 📦 Core Product Feature Modules
+
+Assetify satisfies all required functionality criteria alongside value-added operational bonuses, engineered to provide professional and highly accurate corporate inventory governance:
+
+### 1. Role-Based Access Control & Multi-Role Authentication
+* **Laravel Breeze Authentication Pipeline:** Manages secure user registrations, active session authentications, sign-out actions, and cryptographic password restoration paths (*Forgot Password*).
+* **Granular Three-Tier Authorization System (RBAC):**
+  * **Admin:** Retains absolute system permissions, including master data mutations (CRUD) for products and categories, global transaction interventions, analytical report downloads, and security audit log monitoring.
+  * **Staff:** Oversees standard warehouse logistics, physical asset updates, inputting borrowing claims, and processing incoming item returns.
+  * **Manager:** Authoritative controller over workflow operations with permissions to approve or reject (*Approve/Reject*) borrowing requests, alongside read access to visual analytics dashboards and chronological log timelines.
+
+### 2. Physical Inventory & Master Data Management
+* **Comprehensive Product & Category Mutations (CRUD):** Granular control over naming indexes, unique alphanumeric codes, precise physical warehouse storage coordinates, and categorical asset tagging structures.
+* **Binary Object Upload Engine:** Supports physical media attachments to render asset tracking photographs directly inside user browser views for real-time item condition inspection.
+* **Advanced Query Searching & Filtering Data Matrix:** Instantly resolves database rows based on code structures, names, or storage coordinates, paired with strict filtering options for categories and physical condition metrics (*Good, Lightly Damaged, Severely Damaged*).
+* **Data Pagination Layer:** Streamlines API responses and DOM element weights by splitting large inventory lists cleanly into 10 items per page.
+
+### 3. Circulation Lifecycle & Automated Stock Controls
+* **Multi-Item Borrowing Actions:** Allows a single request form to bundle different item models with varying quantities, powered by a dynamic Alpine.js frontend handler.
+* **Persistent Stock Mitigation & Recovery Closures:**
+  * Deducts available items immediately from the database when a new transaction enters a **Pending** verification status.
+  * Instantly restores quantities back to the inventory ledger if a transaction is marked **Rejected** by a Manager.
+  * Safely increments available units back into the warehouse upon a verified **Returned** status by the Staff.
+* **Overdue Cancellation Interventions:** Features a custom manual revocation button that cancels overdue transactions, automatically restores stock balances, and enforces the entry of an explanation log recorded in English.
+
+### 4. Interactive Monitoring & Data Analytics Dashboard
+* **KPI Metric Cards:** High-level operational summaries reflecting Total Unique Products, Units Available, Active Borrowing Loans, and Defective Units Requiring Maintenance in real-time.
+* **Advanced Charting Data Models (Chart.js Integration):**
+  * **Line Chart:** Measures historical monthly borrowing trajectories to calculate operational usage trends.
+  * **Donut Chart:** Visualizes percentage allocations across categories within the storage facilities.
+  * **Horizontal Bar Chart:** Pinpoints the Top 5 high-demand assets based on transaction volumes.
+* **Low Stock Alert Infrastructure:** An automated flagging mechanism that warns administrators when consumable supplies fall below a defined minimum boundary (< 5 units).
+* **Overdue Return Tracker:** Pins late returns to the dashboard view alongside a native trigger button (*Remind Staff*) to send internal notifications to responsible team members.
+* **Real-Time Operational Audit Log:** An active feed tracking system events, capturing timestamps for product creations and circulation status changes chronologically.
+
+### 5. Document Exports & Advanced Bonus Features
+* **Export Excel (CSV Matrix):** Converts database circulation records into standard tabular layouts for ingestion into analytical processors like Excel or Google Sheets.
+* **Export PDF Layouts:** Embedded print layouts configured via CSS print rules to output structured document printouts directly through web browser engines.
+* **Stateful Dark Mode Interface Toggle:** Interactive interface option featuring system color scheme storage cached within the client's `localStorage` profile.
+* **REST API Gateway Integration:** Programmatic API endpoints mapped for third-party application consumers and future integration extensions.
 
 ---
 
@@ -62,47 +99,6 @@ Assetify implements a modern software engineering workflow that tightly couples 
 * **deploy.sh Script:** A automated custom shell script located on the Azure host machine that automates pull requests, container orchestration rebuild chains, schema migrations, and virtual media storage directory linking processes.
 
 ---
-
-## 📦 Core Product Feature Modules
-
-Assetify satisfies all required functionality criteria alongside value-added operational bonuses, designed to provide high-fidelity enterprise inventory governance:
-
-### 1. Role-Based Access Control & Multi-Role Authentication
-* **Laravel Breeze Authentication Pipeline:** Secure account registrations, session authentications, sign-out actions, and cryptographic password restoration paths (Forgot Password).
-* **Granular Three-Tier Authorization System:**
-  * **Admin:** Retains absolute system permissions, including master data mutations (CRUD), asset categorization configurations, global transaction interventions, and analytical report downloads.
-  * **Staff:** Oversees standard warehouse operations, physical asset mutations, inputting borrowing claims, and processing incoming item returns.
-  * **Manager:** Authoritative controller over workflow operations (Approve/Reject requests) with specialized read access to security audit timelines and visual forecasting graphs.
-
-### 2. Physical Inventory & Master Data Management
-* **Comprehensive Product & Category Mutations (CRUD):** Granular control over naming indexes, unique alphanumeric codes, precise physical storage coordinates, and categorical tagging structures.
-* **Binary Object Upload Engine:** Supports physical media attachments to render asset tracking photographs directly inside user browser views.
-* **Advanced Query Searching & Filtering Data Matrix:** Instantly resolves rows based on code structures, names, or storage coordinates, with strict filters for categories and physical condition metrics (*Good, Lightly Damaged, Severely Damaged*).
-* **Data Pagination Layer:** Streamlines API responses and DOM element weights by splitting lists cleanly into 10 items per page.
-
-### 3. Circulation Lifecycle & Automated Stock Controls
-* **Multi-Item Borrowing Actions:** Allows a single request form to bundle different item models with varying quantities, powered by a dynamic Alpine.js frontend handler.
-* **Persistent Stock Mitigation & Recovery Closures:**
-  * Deducts available items immediately when a transaction enters a **Pending** verification status.
-  * Instantly restores quantities to the ledger if a transaction is marked **Rejected** by a Manager.
-  * Safely increments available units back into the warehouse upon a verified **Returned** status by Staff.
-* **Overdue Cancellation Interventions:** Features a custom manual revocation button that restores stock balances while enforcing the entry of an explanation log recorded in English.
-
-### 4. Interactive Monitoring & Data Analytics Dashboard
-* **KPI Metric Cards:** High-level operational summaries reflecting Total Unique Products, Units Available, Active Borrowing Loans, and Defective Units Requiring Maintenance.
-* **Advanced Charting Data Models (Chart.js Integration):**
-  * **Line Chart:** Measures historical monthly borrowing trajectories to calculate operational usage trends.
-  * **Donut Chart:** Visualizes percentage allocations across categories within the storage facilities.
-  * **Horizontal Bar Chart:** Pinpoints the Top 5 high-demand assets based on transaction volumes.
-* **Low Stock Alert Infrastructure:** An automated flagging mechanism that warns administrators when consumable supplies fall below a defined minimum boundary (< 5 units).
-* **Overdue Return Tracker:** Pins late returns to the dashboard view alongside a native trigger button to send internal notifications to responsible team members.
-* **Real-Time Operational Audit Log:** An active feed tracking system events, capturing timestamps for product creations and circulation status changes.
-
-### 5. Document Exports & Advanced Bonus Features
-* **Export Excel (CSV Matrix):** Converts database circulation records into standard tabular layouts for ingestion into analytical processors like Excel or Google Sheets.
-* **Export PDF Layouts:** Embedded print layouts configured via CSS print rules to output structured document printouts directly through web browser engines.
-* **Stateful Dark Mode Interface Toggle:** Interactive interface option featuring system color scheme storage cached within the client's `localStorage` profile.
-* **REST API Gateway Integration:** Programmatic API endpoints mapped for third-party application consumers and future integration extensions.
 
 ## 🛠️ Technical Architecture & Infrastructure
 
@@ -288,4 +284,6 @@ The REST API endpoints are served under the `/api` prefix, returning standardize
 ## 🤝 Conclusion
 Assetify successfully bridges the gap between conventional log recording systems and predictive inventory planning. Supported by a rock-solid Docker containerization infrastructure on Microsoft Azure, the platform guarantees high performance, isolated persistent data management, and reliable System Dynamics execution to support long-term institutional asset governance.
 
+---
+## 📄 License
 Sinta Dewi Rahmawati - Goes to be intern with InLife
