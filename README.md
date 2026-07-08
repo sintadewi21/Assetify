@@ -1,6 +1,6 @@
 # 📦 Assetify - Integrated Library Inventory Management System
 
-Live Deployment Target: http://assetify.eastasia.cloudapp.azure.com
+Live Deployment Target: [http://assetify.eastasia.cloudapp.azure.com](http://assetify.southeastasia.cloudapp.azure.com/)
 
 ---
 
