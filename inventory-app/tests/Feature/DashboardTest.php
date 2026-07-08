@@ -59,4 +59,26 @@ class DashboardTest extends TestCase
         $loan->refresh();
         $this->assertEquals('Overdue', $loan->status);
     }
+
+    /** @test */
+    public function authenticated_user_can_send_overdue_reminder()
+    {
+        $loan = Loan::create([
+            'user_id' => $this->staff->id,
+            'borrower_name' => 'Budi',
+            'borrow_date' => Carbon::yesterday(),
+            'due_date' => Carbon::yesterday(),
+            'status' => 'Overdue',
+        ]);
+
+        $response = $this->actingAs($this->admin)->post(route('loans.remind', $loan));
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success', 'Reminder notification sent successfully to the staff in charge!');
+
+        $this->assertDatabaseHas('notifications', [
+            'user_id' => $this->staff->id,
+            'title' => 'Overdue Return Warning',
+        ]);
+    }
 }

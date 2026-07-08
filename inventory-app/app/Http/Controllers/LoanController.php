@@ -201,6 +201,33 @@ class LoanController extends Controller
         }
     }
 
+    // Proses Pembatalan Peminjaman Keterlambatan (Staff/Admin - Kembalikan Stok & Tandai Dibatalkan/Rejected)
+    public function cancel(Loan $loan)
+    {
+        if ($loan->status !== 'Overdue') {
+            return redirect()->back()->with('error', 'Only overdue transactions can be cancelled!');
+        }
+
+        try {
+            DB::transaction(function () use ($loan) {
+                $loan->update([
+                    'status' => 'Rejected',
+                    'reject_reason' => 'Loan cancelled due to being overdue.',
+                ]);
+
+                // Kembalikan stok barang ke gudang
+                foreach ($loan->details as $detail) {
+                    $product = $detail->product;
+                    $product->increment('stock', $detail->qty);
+                }
+            });
+
+            return redirect()->route('loans.index')->with('success', 'Loan transaction successfully cancelled and stock returned!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred: '.$e->getMessage());
+        }
+    }
+
     // 7. BONUS: Export data peminjaman ke format Excel (CSV)
     public function exportExcel()
     {

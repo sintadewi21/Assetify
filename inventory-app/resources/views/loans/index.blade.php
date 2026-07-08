@@ -225,14 +225,25 @@
                                         </span>
                                     @endif
                                 @elseif(($loan->status === 'Approved' || $loan->status === 'Overdue') && in_array(strtolower(Auth::user()->role), ['admin', 'staff']))
-                                    <!-- Staff/Admin Return Action -->
-                                    <form action="{{ route('loans.return', $loan->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="btn btn-primary btn-sm px-3 py-1" style="font-size: 11px; border-radius: 6px;" onclick="return confirm('Confirm return of these items?')">
-                                            Return Items
-                                        </button>
-                                    </form>
+                                    @if($loan->status === 'Approved')
+                                        <!-- Staff/Admin Return Action -->
+                                        <form action="{{ route('loans.return', $loan->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-primary btn-sm px-3 py-1" style="font-size: 11px; border-radius: 6px;" onclick="return confirm('Confirm return of these items?')">
+                                                Return Items
+                                            </button>
+                                        </form>
+                                    @else
+                                        <!-- Staff/Admin Cancel Action -->
+                                        <form action="{{ route('loans.cancel', $loan->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-danger btn-sm px-3 py-1" style="font-size: 11px; border-radius: 6px;" onclick="return confirm('Cancel this loan? Item stock will be returned to the warehouse.')">
+                                                Cancel Loan
+                                            </button>
+                                        </form>
+                                    @endif
                                 @else
                                     <span class="text-muted italic" style="font-size: 11px;">Processed</span>
                                 @endif

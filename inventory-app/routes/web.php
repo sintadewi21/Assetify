@@ -17,6 +17,10 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'role:Admin,Staff,Manager'])
     ->name('dashboard');
 
+Route::post('/loans/{loan}/remind', [DashboardController::class, 'remind'])
+    ->middleware(['auth', 'role:Admin,Staff,Manager'])
+    ->name('loans.remind');
+
 // 1. Grup Hak Akses Admin & Staff: Mengelola Kategori, Produk, dan membuat transaksi pinjam baru
 Route::middleware(['auth', 'role:Admin,Staff'])->group(function () {
     Route::resource('categories', CategoryController::class);
@@ -26,6 +30,7 @@ Route::middleware(['auth', 'role:Admin,Staff'])->group(function () {
     Route::get('/loans/create', [LoanController::class, 'create'])->name('loans.create');
     Route::post('/loans', [LoanController::class, 'store'])->name('loans.store');
     Route::patch('/loans/{loan}/return', [LoanController::class, 'returnItems'])->name('loans.return');
+    Route::patch('/loans/{loan}/cancel', [LoanController::class, 'cancel'])->name('loans.cancel');
 });
 
 // 2. Grup Hak Akses Admin, Staff, & Manager: Melihat Log/Laporan Peminjaman

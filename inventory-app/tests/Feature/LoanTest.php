@@ -193,4 +193,36 @@ class LoanTest extends TestCase
         $this->product->refresh();
         $this->assertEquals(10, $this->product->stock);
     }
+
+    /** @test */
+    public function staff_can_cancel_overdue_loan_which_restores_stock()
+    {
+        // 1. Setup overdue loan with reduced stock
+        $this->product->decrement('stock', 2);
+
+        $loan = Loan::create([
+            'user_id' => $this->staff->id,
+            'borrower_name' => 'Doni',
+            'borrow_date' => Carbon::yesterday()->subDays(2),
+            'due_date' => Carbon::yesterday(),
+            'status' => 'Overdue',
+        ]);
+
+        $loan->details()->create([
+            'product_id' => $this->product->id,
+            'qty' => 2,
+        ]);
+
+        // 2. Process cancel
+        $response = $this->actingAs($this->staff)->patch(route('loans.cancel', $loan));
+
+        $response->assertRedirect(route('loans.index'));
+        $loan->refresh();
+        $this->assertEquals('Rejected', $loan->status);
+        $this->assertEquals('Loan cancelled due to being overdue.', $loan->reject_reason);
+
+        // Check stock is restored back to 10
+        $this->product->refresh();
+        $this->assertEquals(10, $this->product->stock);
+    }
 }
