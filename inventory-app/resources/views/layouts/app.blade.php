@@ -115,7 +115,7 @@
             /* Table Styling & Premium Colors */
             .table-responsive {
                 border-radius: 16px;
-                overflow: hidden;
+                overflow-x: auto;
             }
             .table-premium {
                 border-collapse: separate !important;
