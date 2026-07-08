@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       laravel: ${{ steps.filter.outputs.laravel }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      backend: ${{ steps.filter.outputs.backend }}
     steps:
     - name: Checkout Repository Code
       uses: actions/checkout@v4
@@ -27,12 +29,30 @@ jobs:
           laravel:
             - 'inventory-app/**'
             - '.github/workflows/deploy.yml'
+          frontend:
+            - 'inventory-app/resources/css/**'
+            - 'inventory-app/resources/js/**'
+            - 'inventory-app/resources/views/**'
+            - 'inventory-app/tailwind.config.js'
+            - 'inventory-app/vite.config.js'
+            - 'inventory-app/package.json'
+            - 'inventory-app/package-lock.json'
+          backend:
+            - 'inventory-app/**'
+            - '.github/workflows/deploy.yml'
+            - '!inventory-app/resources/css/**'
+            - '!inventory-app/resources/js/**'
+            - '!inventory-app/resources/views/**'
+            - '!inventory-app/tailwind.config.js'
+            - '!inventory-app/vite.config.js'
+            - '!inventory-app/package.json'
+            - '!inventory-app/package-lock.json'
 
   lint:
     name: Lint Code
     runs-on: ubuntu-latest
     needs: detect-changes
-    if: needs.detect-changes.outputs.laravel == 'true'
+    if: needs.detect-changes.outputs.backend == 'true'
 
     steps:
     - name: Checkout Repository Code
@@ -56,7 +76,7 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
     needs: [detect-changes, lint]
-    if: needs.detect-changes.outputs.laravel == 'true'
+    if: needs.detect-changes.outputs.backend == 'true'
 
     steps:
     - name: Checkout Repository Code
@@ -101,7 +121,7 @@ jobs:
   coverage-summary:
     needs: [detect-changes, test]
     runs-on: ubuntu-latest
-    if: always() && (needs.test.result == 'success' || needs.test.result == 'skipped')
+    if: always() && needs.detect-changes.outputs.backend == 'true' && (needs.test.result == 'success' || needs.test.result == 'skipped')
     steps:
       - uses: actions/checkout@v5
 
@@ -138,7 +158,12 @@ jobs:
     name: Deploy via SSH to Azure VPS
     runs-on: ubuntu-latest
     needs: [detect-changes, lint, test, coverage-summary]
-    if: github.ref == 'refs/heads/main' && needs.detect-changes.outputs.laravel == 'true' && needs.test.result == 'success'
+    if: |
+      always() &&
+      github.ref == 'refs/heads/main' &&
+      needs.detect-changes.outputs.laravel == 'true' &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled')
 
     steps:
     - name: Checkout Repository Code

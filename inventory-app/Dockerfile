@@ -38,7 +38,15 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 # Set working directory
+# Set working directory
 WORKDIR /var/www/html
+
+# Copy composer dependency definitions first
+COPY composer.json composer.lock ./
+
+# Install Composer dependencies (without dev, scripts, or autoloader)
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN composer install --no-interaction --no-plugins --no-scripts --no-dev --no-autoloader
 
 # Copy application files
 COPY . .
@@ -46,9 +54,8 @@ COPY . .
 # Copy compiled assets from Stage 1
 COPY --from=assets-builder /app/public/build ./public/build
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN composer install --no-interaction --optimize-autoloader --no-dev
+# Dump optimized autoloader
+RUN composer dump-autoload --optimize --no-dev
 
 # Set permissions for Laravel storage and cache directories
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
