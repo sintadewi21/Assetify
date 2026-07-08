@@ -154,6 +154,8 @@ jobs:
         script: |
           sudo git config --global --add safe.directory /var/www/assetify
           git config --global --add safe.directory /var/www/assetify
+          cd /var/www/assetify
+          sudo git pull origin main
           cd /var/www/assetify/inventory-app
           sudo chmod +x deploy.sh
           sudo ./deploy.sh
