@@ -4,6 +4,12 @@ Sistem Manajemen Inventaris dan Peminjaman Aset berbasis Web yang dikembangkan m
 
 ---
 
+## 🌐 Link Demo (Live Deployment)
+Aplikasi prototype ini telah di-deploy secara langsung dan dapat diakses pada:
+🔗 **[http://20.212.249.9:8080](http://20.212.249.9:8080)**
+
+---
+
 ## 🚀 Fitur Utama & Keunggulan
 1. **Authentication & Multi-Role Authorization**:
    - Sistem login, register, logout, dan reset password.
