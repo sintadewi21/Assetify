@@ -14,6 +14,7 @@
 
         <!-- Bootstrap 5 CSS CDN -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
         <style>
             body {
@@ -65,7 +66,7 @@
             }
         </script>
     </head>
-    <body class="min-vh-screen d-flex flex-column align-items-center justify-content-center py-5">
+    <body class="min-vh-100 d-flex flex-column align-items-center justify-content-center py-3 py-sm-5">
         
         <!-- Logo -->
         <div class="mb-4">
@@ -75,8 +76,8 @@
         </div>
 
         <!-- Form Card Container -->
-        <div class="container d-flex justify-content-center">
-            <div class="card rounded-card shadow border-0 p-4 p-md-5 w-100" style="max-width: 480px;">
+        <div class="container d-flex justify-content-center px-2 px-sm-3">
+            <div class="card rounded-card shadow border-0 p-3 p-sm-4 p-md-5 w-100" style="max-width: 480px;">
                 {{ $slot }}
             </div>
         </div>
