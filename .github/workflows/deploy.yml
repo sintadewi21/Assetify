@@ -152,9 +152,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
+          sudo git config --global --add safe.directory /var/www/assetify
+          git config --global --add safe.directory /var/www/assetify
           cd /var/www/assetify/inventory-app
-          sudo git pull origin main
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan view:clear
-          php artisan route:clear
+          sudo chmod +x deploy.sh
+          sudo ./deploy.sh
