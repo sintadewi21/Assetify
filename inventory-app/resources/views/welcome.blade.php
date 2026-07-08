@@ -481,7 +481,7 @@
             <div class="card glass-card p-4 p-md-5 border-0 shadow-sm mx-auto" style="max-width: 800px;">
                 <div class="text-center mb-4">
                     <span class="badge bg-opacity-10 text-danger border px-3 py-2 uppercase tracking-wider fw-bold mb-3 d-inline-flex align-items-center gap-2" style="font-size: 11px; border-radius: 8px; background-color: rgba(178, 86, 159, 0.1); color: rgba(178, 86, 159, 1) !important; border-color: rgba(178, 86, 159, 0.2) !important;">
-                        <i class="bi bi-info-circle"></i> DEMO GUIDE
+                        <i class="bi bi-info-circle"></i> DEMO ACCOUNT GUIDE 
                     </span>
                     <h3 class="fw-extrabold text-body mb-3">Demonstration Account System</h3>
                     <p class="text-secondary small mb-0" style="font-size: 14px; line-height: 1.6;">
