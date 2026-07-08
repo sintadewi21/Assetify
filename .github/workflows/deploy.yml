@@ -183,4 +183,6 @@ jobs:
           sudo git pull origin main
           cd /var/www/assetify/inventory-app
           sudo chmod +x deploy.sh
-          sudo ./deploy.sh
+          
+          # Kirim variabel deteksi dari GitHub ke dalam script deploy.sh
+          sudo FRONTEND_CHANGED="${{ needs.detect-changes.outputs.frontend }}" BACKEND_CHANGED="${{ needs.detect-changes.outputs.backend }}" ./deploy.sh
