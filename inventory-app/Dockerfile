@@ -1,9 +1,10 @@
 # Stage 1: Build assets using Node
 FROM node:18-alpine AS assets-builder
 WORKDIR /app
-COPY package*.json ./
+COPY package*.json vite.config.js tailwind.config.js ./
 RUN npm install
-COPY . .
+COPY resources/ ./resources/
+COPY public/ ./public/
 RUN npm run build
 
 # Stage 2: Build Laravel application using PHP 8.2 Apache
