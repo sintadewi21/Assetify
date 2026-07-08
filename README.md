@@ -1,8 +1,6 @@
 # 📦 Assetify - Integrated Library Inventory Management System
 
-Course Assignment / Capstone Project: **ES234632 Systems Development and Operations**  
-Department of Information Systems, **Institut Teknologi Sepuluh Nopember (ITS)**  
-Live Deployment Target: [http://assetify.eastasia.cloudapp.azure.com](http://assetify.eastasia.cloudapp.azure.com)
+Live Deployment Target: http://assetify.eastasia.cloudapp.azure.com
 
 ---
 
