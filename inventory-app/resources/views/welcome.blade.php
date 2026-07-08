@@ -469,9 +469,6 @@
                     <a href="{{ route('login') }}" class="btn btn-telkomsel btn-lg px-5 py-3 shadow">
                         Get Started <i class="bi bi-rocket-takeoff ms-1"></i>
                     </a>
-                    <button type="button" class="btn btn-outline-custom btn-lg px-5 py-3" data-bs-toggle="modal" data-bs-target="#featuresModal">
-                        Learn Features
-                    </button>
                 </div>
                 
             </div>
@@ -668,72 +665,5 @@
             }, 5000); // 5 seconds total splash time
         });
     </script>
-
-    <!-- Features Modal with Bootstrap 5 Carousel -->
-    <div class="modal fade" id="featuresModal" tabindex="-1" aria-labelledby="featuresModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content rounded-card bg-body border border-light-subtle shadow-lg">
-                <!-- Header with close button (X) -->
-                <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title fw-extrabold text-gradient" id="featuresModalLabel">Explore InLife Assetify Features</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body py-4 text-start">
-                    <!-- Carousel Slider -->
-                    <div id="featuresCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <!-- Indicators -->
-                        <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#featuresCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#featuresCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#featuresCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                            <button type="button" data-bs-target="#featuresCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                        </div>
-                        
-                        <!-- Slides -->
-                        <div class="carousel-inner rounded-4 bg-light border" style="min-height: 300px;">
-                            <!-- Slide 1 -->
-                            <div class="carousel-item active text-center p-4">
-                                <img src="https://placehold.co/800x400/b2569f/ffffff?text=Dashboard+Overview" class="d-block w-100 img-fluid rounded-3 mb-3" alt="Feature 1" style="max-height: 250px; object-fit: cover;">
-                                <h5 class="fw-bold text-body">Premium Dashboard</h5>
-                                <p class="small text-secondary mb-0">Monitor categories, available stock, borrowed counts, and monthly trends at a single glance.</p>
-                            </div>
-                            <!-- Slide 2 -->
-                            <div class="carousel-item text-center p-4">
-                                <img src="https://placehold.co/800x400/8271b4/ffffff?text=Asset+Tracking" class="d-block w-100 img-fluid rounded-3 mb-3" alt="Feature 2" style="max-height: 250px; object-fit: cover;">
-                                <h5 class="fw-bold text-body">Physical Inventory Circulations</h5>
-                                <p class="small text-secondary mb-0">Record physical asset loans, view due dates, and track real-time check-in and checkout logs.</p>
-                            </div>
-                            <!-- Slide 3 -->
-                            <div class="carousel-item text-center p-4">
-                                <img src="https://placehold.co/800x400/57a9d8/ffffff?text=Manager+Approval" class="d-block w-100 img-fluid rounded-3 mb-3" alt="Feature 3" style="max-height: 250px; object-fit: cover;">
-                                <h5 class="fw-bold text-body">Manager Approval & Rejection Reasons</h5>
-                                <p class="small text-secondary mb-0">Approve loan requests or reject them with mandatory feedback reasons directly visible to staff.</p>
-                            </div>
-                            <!-- Slide 4 -->
-                            <div class="carousel-item text-center p-4">
-                                <img src="https://placehold.co/800x400/e9c91e/333333?text=QR+Code+Simulation" class="d-block w-100 img-fluid rounded-3 mb-3" alt="Feature 4" style="max-height: 250px; object-fit: cover;">
-                                <h5 class="fw-bold text-body">Dynamic QR Codes</h5>
-                                <p class="small text-secondary mb-0">Instantly generate and scan dynamic product QR codes to view specifications during demo sessions.</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Controls -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#featuresCarousel" data-bs-slide="prev" style="filter: invert(1); width: 8%;">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#featuresCarousel" data-bs-slide="next" style="filter: invert(1); width: 8%;">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                </div>
-                <!-- Footer -->
-                <div class="modal-footer border-0 pt-0 justify-content-center">
-                    <button type="button" class="btn btn-telkomsel px-4 py-2" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
