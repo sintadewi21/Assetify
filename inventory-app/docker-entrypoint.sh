@@ -8,6 +8,9 @@ if [ -n "$PORT" ]; then
     sed -i "s/<VirtualHost \*:80>/<VirtualHost *:$PORT>/g" /etc/apache2/sites-available/*.conf
 fi
 
+# Disable conflicting Apache MPM modules at runtime to avoid AH00534
+a2dismod mpm_event mpm_worker 2>/dev/null || true
+
 echo "Database Configuration Info:"
 echo "  DB_HOST: '${DB_HOST}'"
 echo "  DB_PORT: '${DB_PORT}'"
