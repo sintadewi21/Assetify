@@ -28,8 +28,8 @@ echo "Database connection established."
 echo "Running database migrations..."
 php artisan migrate --force
 
-echo "Running database seeders..."
-php artisan db:seed --force
+# echo "Running database seeders..."
+# php artisan db:seed --force
 
 echo "Creating storage symlink..."
 php artisan storage:link --force
