@@ -18,7 +18,7 @@
         <!-- Email Address -->
         <div>
             <label for="email" class="form-label fw-semibold small mb-1">Office Email</label>
-            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="name@telkomsel.com" class="form-control py-2.5 rounded-3 @error('email') is-invalid @enderror">
+            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="name@gmail.com" class="form-control py-2.5 rounded-3 @error('email') is-invalid @enderror">
             @error('email')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror

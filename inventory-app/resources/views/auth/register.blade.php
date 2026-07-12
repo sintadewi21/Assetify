@@ -8,7 +8,7 @@
         <!-- Name -->
         <div>
             <label for="name" class="form-label fw-semibold small mb-1">Full Name</label>
-            <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" placeholder="e.g., Sinta Pertiwi" class="form-control py-2.5 rounded-3 @error('name') is-invalid @enderror">
+            <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" placeholder="e.g., Sinta Dewi Rahmawati" class="form-control py-2.5 rounded-3 @error('name') is-invalid @enderror">
             @error('name')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
