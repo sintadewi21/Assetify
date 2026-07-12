@@ -30,8 +30,8 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Enable Apache rewrite module
-RUN a2enmod rewrite
+# Enable Apache rewrite module and disable conflicting MPM modules
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true && a2enmod rewrite
 
 # Change Apache document root to Laravel public directory
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
